@@ -16,7 +16,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "ArtistServlet", urlPatterns = "/artists")
+//@WebServlet(name = "ArtistServlet", urlPatterns = "/artists")
 public class АrtistServlet extends HttpServlet {
 
     public SpringTemplateEngine springTemplateEngine;
@@ -43,11 +43,5 @@ public class АrtistServlet extends HttpServlet {
         context.setVariable("trackId", value);
 
         springTemplateEngine.process("artistsList.html", context, resp.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.sendRedirect("/songDetails");
     }
 }

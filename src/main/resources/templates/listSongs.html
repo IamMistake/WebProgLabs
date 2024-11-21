@@ -16,18 +16,47 @@
 </header>
 <main>
     <h2>Choose a song:</h2>
-    <!-- Display radio buttons for each song,
-            the value should be the trackId
-            and the displayed text should be Title:
-            <songTitle>, Genre:<genre>, Release Year: <releaseYear> -->
+
     <form method="GET" action="/artists" >
         <div th:each="song: ${songs}">
             <input type="radio"
                    name="trackId"
-                   th:text="${song.getTitle()} + ', Genre: ' + ${song.getGenre()} + ', Release Year: ' + ${song.getReleaseYear()}"
+                   th:text="${song.getTitle()} + ', Genre: ' + ${song.getGenre()} + ', Release Year: ' + ${song.getReleaseYear()} + ', Album: ' + ${song.getAlbum().getName()}"
                    th:value="${song.getTrackId()}"><br/>
+
+            <!-- Edit button -->
+<!--            <form th:action="@{'/songs/edit/{songId}' (songId=${song.getId()})}"-->
+<!--                  method="GET">-->
+<!--                <input type='submit' value='Edit Song'>-->
+<!--            </form>-->
+            <button type="button"
+                    th:onclick="'location.href=\'/songs/edit-form/' + ${song.getId()} + '\''">
+                Edit
+            </button>
+
+            <!-- Delete button -->
+<!--            <form th:action="@{'/songs/delete/{songId}' (songId=${song.getId()})}"-->
+<!--                  method="GET">-->
+<!--                <input type='submit' value='Delete Song'>-->
+<!--            </form>-->
+            <button type="button"
+                    th:onclick="'location.href=\'/songs/delete/' + ${song.getId()} + '\''">
+                Delete
+            </button>
+            <br>
         </div>
+
+        <th:block th:if="${hasError}">
+            <div style="color: red" th:text="${error}" class="text-danger"></div>
+        </th:block>
+
+        <br>
+
         <input type='submit' value='Submit'>
+    </form>
+
+    <form action="/songs/add-form" method="GET">
+        <input type="submit" value="Add Song">
     </form>
 </main>
 </body>
