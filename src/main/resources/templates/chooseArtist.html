@@ -33,6 +33,12 @@
 </header>
 <section>
     <h2>Select artist:</h2>
+
+    <form action="/chooseArtist" method="POST">
+        <input type="text" name="searchBy">
+        <input type="submit" value="Search">
+    </form>
+
     <form method="GET" action="/artistSongs">
         <div th:each="artist: ${artists}">
             <input type="radio"
