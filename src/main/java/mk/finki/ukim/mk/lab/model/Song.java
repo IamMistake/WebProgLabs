@@ -3,11 +3,14 @@ package mk.finki.ukim.mk.lab.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mk.finki.ukim.mk.lab.model.exceptions.MissingArgumentForSongException;
 
 import java.util.List;
 
 @Data
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class Song {
 
@@ -19,13 +22,16 @@ public class Song {
     String title;
     String genre;
     int releaseYear;
-    List<Artist> performers;
+
+    // TODO check this
+    @OneToMany
+    private List<Artist> performers;
 
     @ManyToOne
     private Album album;
 
     public Song(String trackId, String title, String genre, int releaseYear, List<Artist> performers) {
-        this.id = (long) (Math.random() * 1000);
+//        this.id = (long) (Math.random() * 1000);
         this.trackId = trackId;
         this.title = title;
         this.genre = genre;
@@ -42,7 +48,7 @@ public class Song {
             throw new MissingArgumentForSongException();
         }
 
-        this.id = (long) (Math.random() * 1000);
+//        this.id = (long) (Math.random() * 1000);
         this.trackId = trackId;
         this.title = title;
         this.genre = genre;

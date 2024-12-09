@@ -3,7 +3,7 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.Album;
 import mk.finki.ukim.mk.lab.model.Artist;
 import mk.finki.ukim.mk.lab.model.Song;
-import mk.finki.ukim.mk.lab.repository.SongRepository;
+import mk.finki.ukim.mk.lab.repository.jpaRepository.SongJpaRepository;
 import mk.finki.ukim.mk.lab.service.SongService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.Optional;
 @Service
 public class SongServiceImpl implements SongService {
 
-    private final SongRepository songRepository;
+    private final SongJpaRepository songRepository;
 
-    public SongServiceImpl(SongRepository songRepository) {
+    public SongServiceImpl(SongJpaRepository songRepository) {
         this.songRepository = songRepository;
     }
 
@@ -25,8 +25,9 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Artist addArtistToSong(Artist artist, Song song) {
-        return songRepository.addArtistToSong(artist, song);
+    public void addArtistToSong(Artist artist, Song song) {
+        song.getPerformers().add(artist);
+        songRepository.save(song);
     }
 
     @Override
@@ -36,18 +37,27 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public void addSong(Song song) {
-        songRepository.addSong(song);
+        songRepository.save(song);
+//        songRepository.addSong(song);
     }
 
     @Override
-    public boolean editSong(Long id, String trackId, String title, String genre, Integer releaseYear, Album album) {
+    public void editSong(Long id, String trackId, String title, String genre, Integer releaseYear, Album album) {
         Song song = songRepository.findById(id).orElse(null);
-        return songRepository.editSong(song, trackId, title, genre, releaseYear, album);
+        if (song == null) return;
+
+        if (trackId != null && !trackId.isEmpty()) song.setTrackId(trackId);
+        if (title != null && !title.isEmpty()) song.setTitle(title);
+        if (genre != null && !genre.isEmpty()) song.setGenre(genre);
+        if (releaseYear != null && releaseYear > 0) song.setReleaseYear(releaseYear);
+        if (album != null) song.setAlbum(album);
+
+        songRepository.save(song);
     }
 
     @Override
     public void deleteSong(Long id) {
-        songRepository.deleteSong(id);
+        songRepository.deleteById(id);
     }
 
     @Override
