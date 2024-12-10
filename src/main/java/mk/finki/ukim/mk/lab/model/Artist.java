@@ -22,6 +22,12 @@ public class Artist {
     String lastName;
     String bio;
 
+    public Artist(String firstName, String lastName, String bio) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.bio = bio;
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName;
