@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 1000px;
+            margin: auto;
+        }
+        input {
+            /*display: block;*/
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Choose an event:</h2>
+    <form action="/" method="POST">
+        <label>Filter by Name</label>
+        <input type="text" name="filterByName">
+
+        <label>Filter by Rating</label>
+        <input type="text" name="filterByRating">
+
+        <br>
+
+        <input type="submit" value="Filter">
+    </form>
+
+    <form action="/eventBooking" method="GET">
+        <div th:each="event: ${events}">
+            <input type="radio" name="eventName" th:value="${event.getName()}" th:text="${event.toString()}">
+            <button type="button"
+                    th:onclick="'location.href=\'/songs/edit-form/' + '\''">
+                Edit
+            </button>
+            <button type="button"
+                    th:onclick="'location.href=\'/songs/delete/' + '\''">
+                Delete
+            </button>
+        </div>
+
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="numTickets" min="1" max="10">
+        <br/>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+    <form action="events/add-event" method="GET">
+        <input type="submit" value="Add event">
+    </form>
+</main>
+</body>
+</html>
