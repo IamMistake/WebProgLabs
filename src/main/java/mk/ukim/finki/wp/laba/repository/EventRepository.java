@@ -73,4 +73,17 @@ public class EventRepository {
     public void addEvent(Event event) {
         eventList.add(event);
     }
+
+    public Optional<Event> findEventById(Long id) {
+        return eventList.stream()
+                .filter(e -> e.getId() == id)
+                .findFirst();
+    }
+
+    public void deleteEvent(Event event) {
+        eventList.stream()
+                .filter(e -> e.getId() == event.getId())
+                .findFirst()
+                .ifPresent(e -> eventList.remove(e));
+    }
 }

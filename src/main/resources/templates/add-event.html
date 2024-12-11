@@ -64,18 +64,34 @@
 <body>
 
 <div class="form-container">
-    <h1>Add Event</h1>
-    <form action="/events/add" method="POST">
-        <input type="text" name="eventName" placeholder="Event Name..." required>
-        <input type="text" name="eventDesc" placeholder="Event Description..." required>
-        <input type="number" step="0.1" name="eventScore" placeholder="Event Score..." required>
-        <div th:if="${error != null}" th:text="${error}"></div>
-        <select name="eventLocationId">
-<!--            <option value="" disabled selected>Select Location</option>-->
-            <option th:each="location: ${locations}" th:value="${location.getId()}" th:text="${location.getName()}"></option>
-        </select>
-        <button type="submit">Add Event</button>
-    </form>
+    <div th:if="${event == null}"><h1>Add Event</h1>
+        <form action="/events/add" method="POST">
+            <input type="text" name="eventName" placeholder="Event Name..." required>
+            <input type="text" name="eventDesc" placeholder="Event Description..." required>
+            <input type="number" step="0.1" name="eventScore" placeholder="Event Score..." required>
+            <div style="color: red" th:if="${error != null}" th:text="${error}"></div>
+            <select name="eventLocationId" required>
+                <option value="" disabled selected>Select Location</option>
+                <option th:each="location: ${locations}" th:value="${location.getId()}"
+                        th:text="${location.getName()}"></option>
+            </select>
+            <button type="submit">Add Event</button>
+        </form>
+    </div>
+    <div th:if="${event != null}"><h1>Edit Event</h1>
+        <form th:action="@{'/events/edit/{eventId}' (eventId=${event.getId()})}"
+              method="POST">
+            <input type="text" name="eventName" th:placeholder="${event.getName()}">
+            <input type="text" name="eventDesc" th:placeholder="${event.getDescription()}">
+<!--            <input type="number" step="0.1" name="eventScore" th:placeholder="${event.getPopularityScore()}">-->
+            <select name="eventLocationId">
+                <option th:value="${event.getLocation().getId()}" th:text="${event.getLocation().getName()}" selected>Select Location</option>
+                <option th:each="location: ${locations}" th:value="${location.getId()}"
+                        th:text="${location.getName()}"></option>
+            </select>
+            <button type="submit">Edit Event</button>
+        </form>
+    </div>
 </div>
 
 </body>

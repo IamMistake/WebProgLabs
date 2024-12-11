@@ -10,5 +10,8 @@ public interface EventService {
     List<Event> searchEvents(String text);
     Optional<Event> findEventByName(String name);
     List<Event> findEventsByRating(double rating);
+    Optional<Event> findEventById(Long id);
     void addEvent(Event event);
+
+    void deleteEvent(Event event);
 }

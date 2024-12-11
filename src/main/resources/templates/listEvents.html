@@ -31,15 +31,16 @@
         <input type="submit" value="Filter">
     </form>
 
+    <div style="color: red" th:if="${error != null}" th:text="${error}"></div>
     <form action="/eventBooking" method="GET">
         <div th:each="event: ${events}">
             <input type="radio" name="eventName" th:value="${event.getName()}" th:text="${event.toString()}">
             <button type="button"
-                    th:onclick="'location.href=\'/songs/edit-form/' + '\''">
+                    th:onclick="'location.href=\'/events/edit-event/' + ${event.getId()} + '\''">
                 Edit
             </button>
             <button type="button"
-                    th:onclick="'location.href=\'/songs/delete/' + '\''">
+                    th:onclick="'location.href=\'/events/delete/' + ${event.getId()} + '\''">
                 Delete
             </button>
         </div>
