@@ -4,6 +4,7 @@ import mk.finki.ukim.mk.lab.model.Album;
 import mk.finki.ukim.mk.lab.model.Song;
 import mk.finki.ukim.mk.lab.service.AlbumService;
 import mk.finki.ukim.mk.lab.service.SongService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ public class SongController {
 
     //  http://localhost:8080/song/add?title=TITLICA&trackId=123&genre=Rock&releaseYear=2021&albumId=456
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAddSongPage(Model model) {
         model.addAttribute("albums", albumService.findAll());
         model.addAttribute("boolAdd", true);
@@ -44,6 +46,7 @@ public class SongController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveSong(String title,
                            String trackId,
                            String genre,
@@ -69,6 +72,7 @@ public class SongController {
     }
 
     @GetMapping("/edit-form/{songId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getEditSongForm(@PathVariable Long songId,
                                   RedirectAttributes redirectAttributes,
                                   Model model) {
@@ -89,6 +93,7 @@ public class SongController {
     }
 
     @PostMapping("/edit/{songId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editSong(@PathVariable Long songId,
                            @RequestParam(required = false) String title,
                            @RequestParam(required = false) String trackId,
@@ -107,6 +112,7 @@ public class SongController {
 
 
     @GetMapping("/delete/{songId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteSong(@PathVariable Long songId) {
         songService.deleteSong(songId);
 

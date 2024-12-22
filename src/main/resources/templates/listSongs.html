@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Songs Homepage - Welcome to My Music Store</title>
@@ -29,7 +29,7 @@
 <!--                  method="GET">-->
 <!--                <input type='submit' value='Edit Song'>-->
 <!--            </form>-->
-            <button type="button"
+            <button sec:authorize="hasRole('ADMIN')" type="button"
                     th:onclick="'location.href=\'/songs/edit-form/' + ${song.getId()} + '\''">
                 Edit
             </button>
@@ -39,7 +39,7 @@
 <!--                  method="GET">-->
 <!--                <input type='submit' value='Delete Song'>-->
 <!--            </form>-->
-            <button type="button"
+            <button sec:authorize="hasRole('ADMIN')" type="button"
                     th:onclick="'location.href=\'/songs/delete/' + ${song.getId()} + '\''">
                 Delete
             </button>
@@ -55,7 +55,7 @@
         <input type='submit' value='Submit'>
     </form>
 
-    <form action="/songs/add-form" method="GET">
+    <form sec:authorize="hasRole('ADMIN')" action="/songs/add-form" method="GET">
         <input type="submit" value="Add Song">
     </form>
 </main>
